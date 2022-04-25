@@ -44,7 +44,7 @@ namespace Back.Services
                 .FirstOrDefault(x => x.Id == id);
 
             if (character is null)
-                throw new Exception("Character Not Found");
+                throw new KeyNotFoundException("Character Not Found");
 
             return character;
         }
@@ -58,7 +58,9 @@ namespace Back.Services
                                                            || r.Location.ToLower()
                                                                   .Contains(query.SearchPhrase.ToLower())
                                                                 ||r.Class.ToLower()
-                                                                     .Contains(query.SearchPhrase.ToLower()) ));
+                                                                     .Contains(query.SearchPhrase.ToLower())
+                                                                     ||r.Race.ToLower()
+                                                                        .Contains(query.SearchPhrase.ToLower())));
 
 
             if (!string.IsNullOrEmpty(query.SortBy))
@@ -69,6 +71,8 @@ namespace Back.Services
                     { nameof(Character.Location), r => r.Location },
                     { nameof(Character.Class), r => r.Class },
                     { nameof(Character.Race), r => r.Race},
+                    { nameof(Character.Level), r => r.Level},
+                    { nameof(Character.Money), r => r.Money}
                 };
 
                 var selectedColumn = columnsSelectors[query.SortBy];
@@ -85,9 +89,7 @@ namespace Back.Services
 
             var totalItemsCount = baseQuery.Count();
 
-            var charactersDtos = _mapper.Map<List<Character>>(characters);
-
-            var result = new PagedResult<Character>(charactersDtos, totalItemsCount, query.PageSize, query.PageNumber);
+            var result = new PagedResult<Character>(characters, totalItemsCount, query.PageSize, query.PageNumber);
 
             return result;
         }

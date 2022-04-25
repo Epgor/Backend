@@ -16,6 +16,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Services
 
 builder.Services.AddControllers().AddFluentValidation();
+builder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
@@ -25,6 +26,7 @@ builder.Services.AddScoped<IValidator<CreateCharacterDto>, CreateCharacterDtoVal
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<ApiDbContext>();
+builder.Services.AddScoped<ICharacterService, CharacterService>();
 
 
 //open cors for testing purposes

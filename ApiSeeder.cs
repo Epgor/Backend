@@ -73,8 +73,6 @@ namespace Back
                     Location = location,
                     Money = rnd.Next(1000, 99999)
                 };
-                Console.WriteLine(character.Name + " " + character.Class + " " + character.Race);
-                Console.WriteLine(character.Location + " " + character.Money + " " + character.Level);
                 characters.Add(character);
             }
             return characters;
