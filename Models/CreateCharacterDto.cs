@@ -8,5 +8,7 @@ namespace Back.Models
         public string Name { get; set; }
         [Required]
         public string Class { get; set; }
+        [Required]
+        public string Race { get; set; }
     }
 }

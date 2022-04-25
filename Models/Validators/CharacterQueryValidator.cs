@@ -9,7 +9,7 @@ namespace Back.Models.Validators
         private int[] allowedPageSizes = new[] { 5, 10, 15 };
 
         private string[] allowedSortByColumnNames =
-            {nameof(Character.Name), nameof(Character.Location), nameof(Character.Class), nameof(Character.Guild)};
+            {nameof(Character.Name), nameof(Character.Location), nameof(Character.Class), nameof(Character.Race)};
         public CharacterQueryValidator()
         {
             RuleFor(r => r.PageNumber).GreaterThanOrEqualTo(1);

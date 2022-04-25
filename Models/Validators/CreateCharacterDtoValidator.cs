@@ -11,6 +11,8 @@ namespace Back.Models.Validators
 
             RuleFor(x => x.Class)
                 .NotEmpty();
+            RuleFor(x => x.Race)
+                .NotEmpty();
 
             RuleFor(x => x.Name)
                     .Custom((value, context) =>

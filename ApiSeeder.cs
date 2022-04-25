@@ -30,19 +30,52 @@ namespace Back
 
         private IEnumerable<Character> GetCharacters()
         {
-            var characters = new List<Character>();
-            for (int i = 0; i < 2; i++)
+            var Name1= new String[]{ "Artred", "Hobniir", "Toraard", "Ockam", "Nelen", "Talon", "Thomanar", "Vusera", "Tasuur", "Huvil" };
+            var Name2 = new String[] { "Bronzetask", "Ironstriker", "Cravensword", "Rabidchampion", "Quickfist", "Warheart", " Lowfire", "Warslice", "Deepflame", "Warpmaw" };
+            var Name = new List<String> { };
+            foreach (var name1 in Name1)
             {
+                foreach (var name2 in Name2)
+                {
+                    var name = name1 + " " +name2;
+                    Name.Add(name);
+                }
+            };
+            var rnd = new Random();
+            var random_name = Name.OrderBy(item => rnd.Next());
+
+            var Race = new String[] { "Draenei", "Dwarf", "Gnome", "Human", "Night Elf", "Worgen", "Blood Elf", "Goblin", "Orc", "Tauren", "Troll" };
+            var Class = new String[] { "Warrior", "Hunter", "Paladin", "Rogue", "Priest", "Shaman", "Mage", "Warlock", "Druid", "Mage", "Death Knight"};
+
+            var Location1 = new String[] { "Landow", "Cewmann", "Arkney", "Burrafirth", "Rochdale", "Satbury", "Yellowseed", "Ballingsmallard", "Penrith", "Dornwich" };
+            var Location2 = new String[] { "City", "Ruins", "Desert", "Lake", "Forest", "Island", "Cave", "Mountains", "Hills", "Arena", "Dungeons", "Market"};
+            var Location = new List<String> { };
+            foreach (var loc1 in Location1)
+            {
+                foreach (var loc2 in Location2)
+                {
+                    var loc = loc1 + " " + loc2;
+                    Location.Add(loc);
+                }
+            };
+            var characters = new List<Character>();
+            foreach (var name in random_name)
+            {
+                string race = Race[rnd.Next(Race.Count())];
+                string _class = Class[rnd.Next(Class.Count())];
+                string location = Location[rnd.Next(Location.Count())];
                 var character = new Character()
                 {
-                    Name = "tEST",
-                    Class = "test",
-                    Level = 1,
-                    Location = "Starting Location",
-                    Money = 100,
-                    Guild = "test"
+                    Name = name,
+                    Class = _class,
+                    Race = race,
+                    Level = rnd.Next(70, 80),
+                    Location = location,
+                    Money = rnd.Next(1000, 99999)
                 };
-                Console.WriteLine("xd");
+                Console.WriteLine(character.Name + " " + character.Class + " " + character.Race);
+                Console.WriteLine(character.Location + " " + character.Money + " " + character.Level);
+                characters.Add(character);
             }
             return characters;
         }

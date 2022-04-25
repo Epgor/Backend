@@ -68,7 +68,7 @@ namespace Back.Services
                     { nameof(Character.Name), r => r.Name },
                     { nameof(Character.Location), r => r.Location },
                     { nameof(Character.Class), r => r.Class },
-                    { nameof(Character.Guild), r => r.Guild},
+                    { nameof(Character.Race), r => r.Race},
                 };
 
                 var selectedColumn = columnsSelectors[query.SortBy];
@@ -106,7 +106,7 @@ namespace Back.Services
             character.Location = dto.Location;
             character.Level = dto.Level;
             character.Money = dto.Money;
-            character.Guild = dto.Guild;
+            character.Race = dto.Race;
 
             _dbContext.SaveChanges();
 

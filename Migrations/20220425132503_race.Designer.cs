@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Back.Migrations
 {
     [DbContext(typeof(ApiDbContext))]
-    [Migration("20220425124334_init")]
-    partial class init
+    [Migration("20220425132503_race")]
+    partial class race
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -35,9 +35,6 @@ namespace Back.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Guild")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<int>("Level")
                         .HasColumnType("int");
 
@@ -52,6 +49,10 @@ namespace Back.Migrations
                         .IsRequired()
                         .HasMaxLength(30)
                         .HasColumnType("nvarchar(30)");
+
+                    b.Property<string>("Race")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

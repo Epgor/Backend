@@ -19,6 +19,10 @@ namespace Back.Entities
                 .IsRequired();
 
             modelBuilder.Entity<Character>()
+                .Property(x => x.Race)
+                .IsRequired();
+
+            modelBuilder.Entity<Character>()
                 .Property(x => x.Location)
                 .IsRequired();
 
