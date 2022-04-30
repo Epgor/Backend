@@ -10,7 +10,8 @@ using System.Linq.Expressions;
 
 namespace Back.Services
 {
-
+    //todo errorhandling middleware
+    //todo logging
     public interface ICharacterService
     {
         void Create(CreateCharacterDto dto);
@@ -101,6 +102,15 @@ namespace Back.Services
 
             if (character is null)
                 throw new Exception("Character Not Found");
+            if (character.Name != dto.Name)
+            {
+                if (_dbContext.Characters.Any(x => x.Name == dto.Name))
+                {
+                    throw new Exception("Name already exists!");
+                }
+            }
+                
+                
 
             character.Name = dto.Name;
             character.Class = dto.Class;

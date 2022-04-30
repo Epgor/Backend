@@ -23,6 +23,7 @@ builder.Services.AddSwaggerGen();
 
 builder.Services.AddScoped<ApiSeeder>();
 builder.Services.AddScoped<IValidator<CreateCharacterDto>, CreateCharacterDtoValidator>();
+builder.Services.AddScoped<IValidator<CharacterQuery>, CharacterQueryValidator>();
 
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddDbContext<ApiDbContext>();
