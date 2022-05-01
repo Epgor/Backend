@@ -1,12 +1,15 @@
 ﻿
 using AutoMapper;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
-using Back.Entities;
-using Back.Models;
 using System.Linq;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+
+using Back.Entities;
+using Back.Models;
+using Back.Exceptions;
 
 namespace Back.Services
 {
@@ -26,17 +29,21 @@ namespace Back.Services
     {
         private readonly ApiDbContext _dbContext;
         private readonly IMapper _mapper;
-        public CharacterService(ApiDbContext dbContext, IMapper mapper)
+        private readonly ILogger<CharacterService> _logger;
+        public CharacterService(ApiDbContext dbContext, IMapper mapper, ILogger<CharacterService> logger)
         {
             _dbContext = dbContext;
             _mapper = mapper;
+            _logger = logger;
         }
 
         public void Create(CreateCharacterDto dto)
         {
+            _logger.LogInformation("Character CREATE action invoked");
             var character = _mapper.Map<Character>(dto);
             _dbContext.Characters.Add(character);
             _dbContext.SaveChanges();
+            _logger.LogInformation($"Character with id: {character.Id} CREATED");
         }
 
         public Character Get(int id)
@@ -45,7 +52,7 @@ namespace Back.Services
                 .FirstOrDefault(x => x.Id == id);
 
             if (character is null)
-                throw new KeyNotFoundException("Character Not Found");
+                throw new CharNotFoundException("Character Not Found");
 
             return character;
         }
@@ -97,16 +104,23 @@ namespace Back.Services
 
         public void Update(int id, UpdateCharacterDto dto)
         {
+            _logger.LogInformation($"Character with id: {id} UPDATE action invoked");
             var character = _dbContext.Characters
                 .FirstOrDefault(x => x.Id == id);
 
             if (character is null)
-                throw new Exception("Character Not Found");
+            {
+                _logger.LogWarning($"Character with id: {id} NOT FOUND");
+                throw new CharNotFoundException("Character Not Found");
+            }
+                
+
             if (character.Name != dto.Name)
             {
                 if (_dbContext.Characters.Any(x => x.Name == dto.Name))
                 {
-                    throw new Exception("Name already exists!");
+                    _logger.LogWarning($"Character with id: {id} Name: {dto.Name} ALREADY TAKEN");
+                    throw new NameAlreadyExistsException("Name already exists");
                 }
             }
                 
@@ -121,18 +135,24 @@ namespace Back.Services
             character.Race = dto.Race;
 
             _dbContext.SaveChanges();
+            _logger.LogInformation($"Character with id: {id} UPDATED");
 
         }
         public void Delete(int id)
         {
+            _logger.LogInformation($"Character with id: {id} DELETE action invoked");
             var character = _dbContext.Characters
                 .FirstOrDefault(x => x.Id == id);
 
             if (character is null)
-                throw new Exception("Character Not Found");
+            {
+                _logger.LogWarning($"Character with id: {id} NOT FOUND");
+                throw new CharNotFoundException("Character Not Found");
+            }
 
             _dbContext.Characters.Remove(character);
             _dbContext.SaveChanges();
+            _logger.LogInformation($"Character with id: {id} DELETED");
         }
     }
 }
